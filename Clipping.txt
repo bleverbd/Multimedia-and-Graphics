@@ -1,0 +1,265 @@
+#include<bits/stdc++.h>
+#include<graphics.h>
+using namespace std;
+static float ymax=370,xmax=220,ymin=30,xmin=30;
+
+int region_value(float x1,float y1,float x2,float y2,float m)
+{
+    int a[4],b[4];
+    a[0]=y1-ymax;
+    a[1]=ymin-y1;
+    a[2]=x1-xmax;
+    a[3]=xmin-x1;
+
+    b[0]=y2-ymax;
+    b[1]=ymin-y2;
+    b[2]=x2-xmax;
+    b[3]=xmin-x2;
+
+    for(int i=0; i<4; i++)
+    {
+        if(a[i]<=0)
+        {
+            a[i]=0;
+
+        }
+
+        else
+            a[i]=1;
+    }
+
+    for(int i=0; i<4; i++)
+    {
+        if(b[i]<=0)
+        {
+            b[i]=0;
+
+        }
+
+        else
+            b[i]=1;
+    }
+
+    int c[4],d[4];
+
+    for(int i=0; i<4; i++)
+    {
+        c[i]=(a[i] | b[i]);
+
+    }
+    int flag=0;
+    for(int i=0; i<4; i++)
+    {
+        if(c[i]==1)
+        {
+            flag=1;
+            break;
+        }
+
+
+    }
+    if (flag==1)
+    {
+
+        for(int i=0; i<4; i++)
+        {
+            d[i]=(a[i] & b[i]);
+
+        }
+        int flag1=0;
+        for(int i=0; i<4; i++)
+        {
+            if(d[i]==1)
+            {
+                flag1=1;
+                break;
+            }
+        }
+        if( flag1==0)
+        {
+            cout<<"         A:"<<a[0]<<a[1]<<a[2]<<a[3]<<endl;
+            cout<<"         B:"<<b[0]<<b[1]<<b[2]<<b[3]<<endl;
+
+            cout<<"     OR is:"<<c[0]<<c[1]<<c[2]<<c[3]<<endl;
+            cout<<"    AND is:"<<d[0]<<d[1]<<d[2]<<d[3]<<endl;
+            cout<<"Line is considered the clipped candidate"<<endl;
+
+
+            float  xa,ya;
+
+            if(a[0]==0&&a[1]==0&&a[2]==0&&a[3]==1)
+            {
+                xa=xmin;
+                ya=y1+(xa-x1)*m;
+            }
+            else if(a[0]==0&&a[1]==1&&a[2]==0&&a[3]==0)
+            {
+                ya=ymin;
+                xa=x1+(ya-y1)/m;
+
+            }
+            else if(a[0]==0&&a[1]==0&&a[2]==1&&a[3]==0)
+            {
+                xa=xmax;
+                ya=y1+(xa-x1)*m;
+            }
+            else if(a[0]==1&&a[1]==0&&a[2]==0&&a[3]==0)
+            {
+                ya=ymax;
+                xa=x1+(ya-y1)/m;
+            }
+            else if(a[0]==0&&a[1]==1&&a[2]==0&&a[3]==1)
+            {
+
+
+
+                xa=xmin;
+                ya=y1+(xa-x1)*m;
+
+            }
+            else if(a[0]==0&&a[1]==1&&a[2]==1&&a[3]==0)
+            {
+
+                if(y1<ymin)
+                {
+                    ya=ymin;
+                    xa=x1+(ya-y1)/m;
+                }
+                else if(y1>ymin)
+                {
+                    xa=xmax;
+                    ya=y1+(xa-x1)*m;
+                }
+            }
+            else if(a[0]==1&&a[1]==0&&a[2]==1&&a[3]==0)
+            {
+                ya=ymax;
+                xa=xmax;
+                cout<<"c";
+            }
+
+            else if(a[0]==1&&a[1]==0&&a[2]==0&&a[3]==1)
+            {
+                if(y2<ymin)
+                {
+                    xa=xmin;
+                    ya=y1+(xa-x1)*m;
+                }
+                else if(y2>ymin)
+                {
+                    ya=ymax;
+                    xa=x1+(ya-y1)/m;
+                }
+                else
+                {
+                    ya=ymax;
+                    xa=xmin;
+                }
+
+            }
+            float xb,yb;
+
+
+            if(b[0]==0&&b[1]==0&&b[2]==0&&b[3]==1)
+            {
+                xb=xmin;
+                yb=y2+(xb-x2)*m;
+            }
+            else if(b[0]==0&&b[1]==1&&b[2]==0&&b[3]==0)
+            {
+                yb=ymin;
+                xb=x2+(yb-y2)/m;
+
+            }
+            else if(b[0]==0&&b[1]==0&&b[2]==1&&b[3]==0)
+            {
+                xb=xmax;
+                yb=y2+(xb-x2)*m;
+
+            }
+
+            else if(b[0]==1&&b[1]==0&&b[2]==0&&b[3]==0)
+            {
+                yb=ymax;
+                xb=x2+(yb-y2)/m;
+            }
+
+            else if(b[0]==0&&b[1]==1&&b[2]==0&&b[3]==1)
+            {
+                yb=ymin;
+                xb=xmin;
+            }
+            else if(b[0]==0&&b[1]==1&&b[2]==1&&b[3]==0)
+            {
+                yb=ymin;
+                xb=xmax;
+            }
+            else if(b[0]==1&&b[1]==0&&b[2]==1&&b[3]==0)
+            {
+                yb=ymax;
+                xb=xmax;
+            }
+
+            else if(b[0]==1&&b[1]==0&&b[2]==0&&b[3]==1)
+            {
+                yb=ymax;
+                xb=xmin;
+            }
+            setcolor(WHITE);
+            line(xa,ya,xb,yb);
+
+
+        }
+        else
+        {
+            cout<<"         A:"<<a[0]<<a[1]<<a[2]<<a[3]<<endl;
+            cout<<"         B:"<<b[0]<<b[1]<<b[2]<<b[3]<<endl;
+
+            cout<<"     OR is:"<<c[0]<<c[1]<<c[2]<<c[3]<<endl;
+            cout<<"    AND is:"<<d[0]<<d[1]<<d[2]<<d[3]<<endl;
+            cout<<"then the line is invisible"<<endl;
+        }
+
+
+
+
+    }
+    else
+    {
+        cout<<"         A:"<<a[0]<<a[1]<<a[2]<<a[3]<<endl;
+        cout<<"         B:"<<b[0]<<b[1]<<b[2]<<b[3]<<endl;
+
+        cout<<"     OR is:"<<c[0]<<c[1]<<c[2]<<c[3]<<endl;
+        cout<<"Line is considered to be visible"<<endl;
+    }
+
+
+
+
+
+}
+
+int main()
+{
+    float X,Y;
+
+    initwindow(500,400,"My_Windows");
+    X=getmaxx();
+    Y=getmaxy();
+    setcolor(YELLOW);
+    line(X/2,0,X/2,Y);
+    rectangle(xmin,ymin,xmax,ymax);
+
+    float Ax=230,Ay=50,Bx=20,By=200;
+    float m;
+    m=(By-Ay)/(Bx-Ax);
+    setcolor(GREEN);
+    line(Ax,Ay,Bx,By);
+    region_value(Ax,Ay,Bx,By,m);
+
+    while(!kbhit())
+    {
+        delay(200);
+    }
+
+}
